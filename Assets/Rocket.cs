@@ -8,6 +8,7 @@ public class Rocket : MonoBehaviour
 {
     [SerializeField] float rcsThrust = 100f;
     [SerializeField] float mainThrust = 100f;
+    [SerializeField] float levelLoadDelay = 2f;
 
     [SerializeField] AudioClip mainEngine;
     [SerializeField] AudioClip deathSound;
@@ -19,8 +20,10 @@ public class Rocket : MonoBehaviour
 
     Rigidbody rb;
     AudioSource audios;
-    enum State { Alive, Dying, Transcending};
-    State state = State.Alive;
+
+    bool isTransitioning = false;
+
+    bool collisionsDisabled = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,15 +34,32 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (state == State.Alive)
+        if (!isTransitioning)
         {
             RespondToThrustInput();
             RespondToRotateInput();
         }
+        if (Debug.isDebugBuild)
+        {
+            RespondToDebugKeys();
+        }
     }
+
+    private void RespondToDebugKeys()
+    {
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            LoadNextLevel();
+        }
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            collisionsDisabled = !collisionsDisabled;
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if(state != State.Alive)
+        if(isTransitioning || collisionsDisabled)
         {
             return;
         }
@@ -58,26 +78,32 @@ public class Rocket : MonoBehaviour
 
     private void StartDeathSequence()
     {
-        state = State.Dying;
+        isTransitioning = true;
         audios.Stop();
         audios.PlayOneShot(deathSound);
         deathSoundParticles.Play();
-        Invoke("LoadDeathScene", 1f);
+        Invoke("LoadFirstLevel", levelLoadDelay);
     }
 
     private void StartSuccessSequence()
     {
-        state = State.Transcending;
+        isTransitioning = true;
         audios.PlayOneShot(LevelUp);
         LevelUpParticles.Play();
-        Invoke("LoadNextScene", 1f);
+        Invoke("LoadNextLevel", levelLoadDelay);
     }
 
-    private void LoadNextScene()
+    private void LoadNextLevel()
     {
-            SceneManager.LoadScene(1);   
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        int nextSceneIndex = currentSceneIndex + 1;
+        if(nextSceneIndex == SceneManager.sceneCountInBuildSettings)
+        {
+            nextSceneIndex = 0;
+        }
+            SceneManager.LoadScene(nextSceneIndex);   
     }
-    private void LoadDeathScene()
+    private void LoadFirstLevel()
     {
         SceneManager.LoadScene(0);
     }
@@ -107,7 +133,7 @@ public class Rocket : MonoBehaviour
 
     private void RespondToRotateInput()
     {
-        rb.freezeRotation = true;
+        rb.angularVelocity = Vector3.zero;
         
         float rotationThisFrame = rcsThrust * Time.deltaTime;
         if (Input.GetKey(KeyCode.A))
@@ -118,6 +144,5 @@ public class Rocket : MonoBehaviour
         {
             transform.Rotate(-Vector3.forward * rotationThisFrame);
         }
-        rb.freezeRotation = false;
     }
 }

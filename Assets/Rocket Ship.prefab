@@ -283,8 +283,8 @@ GameObject:
   m_Component:
   - component: {fileID: 212805518146508445}
   - component: {fileID: 82963905659716298}
-  - component: {fileID: 1776537148}
   - component: {fileID: 1776537150}
+  - component: {fileID: 1776537148}
   m_Layer: 0
   m_Name: Rocket Ship
   m_TagString: Untagged
@@ -323,7 +323,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 8fce276cf2d0f464c93bbc9d342af87a, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -409,6 +409,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1776537150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7214210553230948578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79f16075f509f5d4e8da7a18a988c90b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rcsThrust: 150
+  mainThrust: 5
+  levelLoadDelay: 2
+  mainEngine: {fileID: 8300000, guid: 80cd0e6a28dbfe74db028023663fe031, type: 3}
+  deathSound: {fileID: 8300000, guid: adab7df451fe9014b9980058200ef954, type: 3}
+  LevelUp: {fileID: 8300000, guid: 248b189587490834db2587cc64fe811f, type: 3}
+  mainEngineParticles: {fileID: 2298267471072175786}
+  deathSoundParticles: {fileID: 2277404903656455914}
+  LevelUpParticles: {fileID: 2277537721669265160}
 --- !u!54 &1776537148
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -425,26 +446,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 56
   m_CollisionDetection: 0
---- !u!114 &1776537150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7214210553230948578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79f16075f509f5d4e8da7a18a988c90b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rcsThrust: 100
-  mainThrust: 5
-  mainEngine: {fileID: 8300000, guid: 80cd0e6a28dbfe74db028023663fe031, type: 3}
-  deathSound: {fileID: 8300000, guid: adab7df451fe9014b9980058200ef954, type: 3}
-  LevelUp: {fileID: 8300000, guid: 248b189587490834db2587cc64fe811f, type: 3}
-  mainEngineParticles: {fileID: 2298267471072175786}
-  deathSoundParticles: {fileID: 2277404903656455914}
-  LevelUpParticles: {fileID: 2277537721669265160}
 --- !u!1 &7968538457841381026
 GameObject:
   m_ObjectHideFlags: 0
